@@ -1,28 +1,28 @@
 // Dependencies
-var express = require('express');
-var mysql = require('mysql');
+const express = require('express');
+const mysql = require('mysql');
 
 // Global Variables
-var app = express();
-var connection = mysql.createConnection({
+const app = express();
+const connection = mysql.createConnection({
   host     : '127.0.0.1',
   database : 'nodeblog',
   user     : 'root'
 });
 
 
-// respond with "hello world" when a GET request is made to the homepage
 app.get('/', function (req, res) {
+  res.send('Welcome to the NodeBlog app!')
+})
+
+// Display all the posts in the app.
+app.get('/allposts', function (req, res) {
   connection.query('SELECT * FROM posts;', function(err, rows, fields) {
     if (err) throw err;
 
     // console.log('The solution is: ', rows[0].solution);
     res.send(rows)
   });
-})
-
-app.get('/a', function (req, res) {
-  res.send('Something else')
 })
 
 // Database connection script from githum/mysqljs/mysql

@@ -13,7 +13,12 @@ var connection = mysql.createConnection({
 
 // respond with "hello world" when a GET request is made to the homepage
 app.get('/', function (req, res) {
-  res.send({nathan:'hello world', title: 'Aaron is cool'})
+  connection.query('SELECT * FROM posts;', function(err, rows, fields) {
+    if (err) throw err;
+
+    // console.log('The solution is: ', rows[0].solution);
+    res.send(rows)
+  });
 })
 
 app.get('/a', function (req, res) {

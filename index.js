@@ -11,17 +11,24 @@ const connection = mysql.createConnection({
   user     : 'root'
 });
 
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }))
 // parse application/json
 app.use(bodyParser.json())
+
 
 app.get('/', function (req, res) {
   res.send('Welcome to the NodeBlog app!')
 })
 
+// Post a new post to the posts table.
 app.post('/newpost',function(req,res){
-  // connection.query('INSERT INTO posts')
-  console.log(req.body);
-  res.send('Post complete');
+  var post = {title: req.body.title, body: req.body.body};
+
+  connection.query('INSERT INTO posts SET ?', post, function(err, result) {
+    res.send('Post complete');
+  });
+
 });
 
 // Display all the posts in the app.
